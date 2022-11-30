@@ -1,0 +1,49 @@
+{% extends "users/base.html" %} 
+
+{% block title %}
+sign up
+{% endblock title %}
+<h1> Here is SignUp page </h1>
+{% block content %}
+
+
+<div class="auth">
+    <form action="{%url 'users:signup'%}" method="post">
+        {% csrf_token %}    
+        {% for field in form %}
+            <div class="fieldWrapper">
+                {{ field.errors }}
+                {{ field }}
+            </div>
+        {% endfor%}
+        <input type="submit" value="Sign up">
+    </form>
+</div>
+<div class="auth_link">
+    <a href="{% url 'users:main' %}">Login</a>
+</div>
+{% endblock content%}
+
+<!-- 사용자가 signup페이지에 들어오면 urls패턴에 의해
+signup이 구현되어 있는 뷰로 연결시켜주고 뷰의 signup함수에서는
+요청에 따른(GET, POST)에 따라 처리를 분기시켜서 해당하는 템플릿을 사용자에게
+최종 리턴해준다. signup.html의 경우에는 사용자가 단순히 페이지에 접속했을 때 
+GET 방식으로 요청이 들어왔으니 이 html 파일을 호출해서 보여주는데 이때 signup뷰에서
+        return render(request, 'users/signup.html', {'form':form})
+이런식으로 데이터가 넘어오는데 세번째 인자에는 context가 들어간다
+여기서 context는 우리가 만들어놓은 forms.py의 SignUpForm의 내용을 담고있다
+form = SignUpForm()을 통해서 참조를 하였기 때문이다.
+그래서 최종적으로 SignUpForm 클래스에 정의되어있는
+class Meta:
+        model = User
+        fields =[
+            'email',
+            'name',
+            'username',
+            'password'
+        ]
+의 내용을 참조해서 아래의 for루프문에서 form 안에 있는 필드값들을 하나씩 가져오고 뿌려주는
+명령을 수행하고 있다.
+
+POST 방식은 csrf_token 꼭 정의해줘야함
+!-->

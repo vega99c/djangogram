@@ -1,0 +1,47 @@
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" type="text/css" href="{% static 'css/users/main.css'%}">
+    <title>{% block title %}{% endblock %}-Djangogram</title>
+</head>
+<body>
+    <div class="content">
+        {% block content %} {% endblock %}
+    </div>
+
+    {% include "users/footer.html" %}
+</body>
+</html>
+
+
+<!--
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/users/main.css'%}" {% endcomment %}
+    {% comment %} <title>{% block title %}{% endblock %} Djangogram</title> {% endcomment %}
+</head>
+<body>
+    Here is base.html
+    <div>
+        {% comment %} {% block content %} {% endblock %}         {% endcomment %}
+    </div>
+    {% comment %} 다른 템플릿을 직접 붙임 {% endcomment %}
+    <footer>
+        {% include "users/footer.html" %}       
+    </footer>
+</body>
+</html>
+-->
