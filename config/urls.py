@@ -20,8 +20,8 @@ urlpatterns = [
     # 첫번째 인자는 url패턴, include를 이용해서 각각의 앱 url로 분기시켜줌. url패턴에 따라
     # / 
     path("", include("djangogram.users.urls", namespace="users")),
-
-    # /posts/
+    
+    # /posts/    
     path("posts/", include("djangogram.posts.urls", namespace="posts")),
     
 

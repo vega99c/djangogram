@@ -29,7 +29,7 @@ class UserAdminCreationForm(admin_forms.UserCreationForm):
             "username": {"unique": _("This username has already been taken.")}
         }
 
-
+#직접 만든 폼
 class SignUpForm(django_forms.ModelForm):
     # 사용할 모델 and 화면에 보여질 필드들을 추가해준다.
     class Meta:
@@ -52,7 +52,7 @@ class SignUpForm(django_forms.ModelForm):
             'email' : django_forms.TextInput(attrs={'placeholder': '이메일 주소'}),
             'name' : django_forms.TextInput(attrs={'placeholder': '성명'}),
             'username' : django_forms.TextInput(attrs={'placeholder': '사용자 이름'}),
-            'password' : django_forms.TextInput(attrs={'placeholder': '비밀번호'}),
+            'password' : django_forms.PasswordInput(attrs={'placeholder': '비밀번호'}),
         }
     
     def save(self, commit=True):

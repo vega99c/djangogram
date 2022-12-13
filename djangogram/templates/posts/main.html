@@ -1,25 +1,106 @@
 {% extends "posts/base.html"%}
+{% load static %}
 
 {% block content %}
 
-Here is Post Main Page.
+
 {% for post in posts %}
-    <div>
-        {{ post.author.id }}
-        {{ post.author.username }}
-        {{ post.author.profile_photo }}
-        {{ post.id }}
-        {{ post.image }}
-        {{ post.caption }}
+    <div class="post-box">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="profile">
+                {% if post.author.profile_photo != None %}
+                    <img src ="{{ post.author.profile_photo }}">
+                {% else %}
+                    <img src ="{%  static 'images/posts/no_avatar.png' %}">
+                {% endif %}
+                <div>
+                    {{ post.author.username }}
+                </div>
+            </div>
 
-        {% for comment in post.comment_post %}
-        <br> {{ comment.contents }}
-        {% endfor %}
-
-        <div>
-            ---------------------------------
+            {% if user.id == post.author.id %}
+            <div class="icon">
+                <a href="{% url 'posts:post_update' post.id %}">
+                    <i class="fa fa-pencil fa1x"></i>
+                </a>
+                <i class="fa fa-trash-o fa1x"></i>
+            {% endif %}
+            </div>
         </div>
 
+        <!-- IMAGE -->
+        <img class="post-image" src="{{ post.image }}">
+
+        <!-- IMAGE-BUTTON 
+            버튼 고유의 id값을 생성하고 클릭했을 때 js/posts.js에 정의된 handleLikeClick함수에
+            이 버튼의 id를 넘겨주는 것까지 하고 있음
+        --> 
+        <button id="like-button-{{ post.id }}" onclick="handleLikeClick(this.id)">
+            {% if user.id in post.image_likes %}
+                <i class="fa fa-heart fa-2x"></i>            
+            {% else %}
+                <i class="fa fa-heart-o fa-2x"></i>
+            {% endif %}
+        </button>
+        <div class"desc-box">
+            <!-- IMAGE-DESCRIPTION -->
+            <div class="image-desc">
+                <b>{{ post.author.username }}</b>
+                {{ post.caption }}                
+            </div>
+
+            <!-- COMMENT -->
+            <div class="comment">
+                {% for comment in post.comment_post %}
+                    <div id="comment-{{ comment.id }}">
+                        {{ comment.author.username }}
+                        {{ comment.contents }}
+                        <!-- 삭제 버튼 조건처리 -->
+                        {% if user.id == comment.author.id %}
+                            <a href="{% url 'posts:comment_delete' comment.id %}">
+                                <i class="fa fa-trash-o fa1x"></i>
+                            </a>
+                        {% endif%}                        
+                {% endfor%}
+            </div>
+        </div>
+    <!-- COMMENT INPUT -->
+    <div class="comment-input">
+        <!-- posts/views.py의 index뷰에서 렌더링할때 PostSerializer로 변환한 포스트 데이터들이
+        템플릿에 전달 되고 그것들을 지금 이 템플릿에서 for루프로 post에 다시 담아서 
+        사용하고 있다. 그래서 아래 form 태그에서도 post.id 접근이 가능 한 것-->
+        <form action="{% url 'posts:comment_create' post.id %}" method="post">
+            {% csrf_token %}
+            {{ comment_form }}
+            <input type="submit" value="comment save">
+        </form>
     </div>
+    </div>
+
 {% endfor %}
+
 {% endblock content %}
+
+
+<!--
+<div>
+    {{ post.author.id }}
+    {{ post.author.username }}
+    {{ post.author.profile_photo }}
+    {{ post.id }}
+    {{ post.image }}
+    {{ post.caption }}
+
+    {% for comment in post.comment_post %}
+    <br> {{ comment.contents }}
+    {% endfor %}
+
+    <div>
+        ---------------------------------
+    </div>
+
+</div>
+<p>Here is Post Main Page.</p>
+<p>메인 포스트 페이지 </p>
+-->

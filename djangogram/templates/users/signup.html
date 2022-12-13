@@ -4,9 +4,8 @@
 sign up
 {% endblock title %}
 <h1> Here is SignUp page </h1>
+
 {% block content %}
-
-
 <div class="auth">
     <form action="{%url 'users:signup'%}" method="post">
         {% csrf_token %}    

@@ -8,7 +8,8 @@ from .forms import SignUpForm
 def main(request):    
     if request.method == 'GET':
         return render(request,'users/main.html')
-    
+        
+    #로그인 분기
     elif request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post
+from .models import Post, Comment
 
 class CreatePostForm(forms.ModelForm):
     class Meta:
@@ -11,4 +11,14 @@ class CreatePostForm(forms.ModelForm):
             "image" : "사진"
         }
 
+class CommentForm(forms.ModelForm):
+    # label 공백 이유
+    contents = forms.CharField(widget=forms.Textarea, label="")
+    class Meta:
+        model = Comment
+        fields =["contents"]
 
+class UpdatePostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ["caption"]
